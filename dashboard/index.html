@@ -1,0 +1,2707 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>PRAKASHAN AI | Smart Solar Seed Dryer</title>
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#10b981">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <link rel="apple-touch-icon" href="logo.jpg">
+  
+  <!-- Fonts & CDN Icons (with offline fallbacks) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <style>
+/* ==========================================================================
+   PRAKASHAN AI - Agricultural Tech Dashboard & APK-Ready Mobile Styling
+   ========================================================================== */
+:root {
+  --bg-main: #0b0f19;
+  --bg-card: #131b2e;
+  --bg-card-hover: #19243d;
+  --bg-input: #1b2640;
+  
+  --border-color: rgba(255, 255, 255, 0.08);
+  --border-focus: #10b981;
+  
+  --text-main: #f8fafc;
+  --text-muted: #94a3b8;
+  --text-dim: #64748b;
+  
+  --primary: #10b981;
+  --primary-glow: rgba(16, 185, 129, 0.25);
+  --accent-ai: #8b5cf6;
+  --accent-ai-glow: rgba(139, 92, 246, 0.25);
+  --solar-amber: #f59e0b;
+  --danger: #ef4444;
+  --info: #3b82f6;
+  
+  --font-main: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+  
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 20px;
+  --radius-full: 9999px;
+  
+  --shadow-card: 0 10px 25px -5px rgba(0, 0, 0, 0.4), 0 8px 10px -6px rgba(0, 0, 0, 0.3);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  font-family: var(--font-main);
+  background-color: var(--bg-main);
+  color: var(--text-main);
+  line-height: 1.5;
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+/* Top Navigation Bar */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: max(0.85rem, env(safe-area-inset-top)) 2rem 0.85rem 2rem;
+  background: rgba(19, 27, 46, 0.92);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border-color);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.nav-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+}
+
+.brand-logo-container {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid #f59e0b;
+  box-shadow: 0 0 16px rgba(245, 158, 11, 0.4);
+  background: #0b1f14;
+  flex-shrink: 0;
+}
+
+.brand-logo-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.brand-title {
+  font-size: 1.35rem;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.ai-badge {
+  background: linear-gradient(135deg, #8b5cf6, #3b82f6);
+  color: white;
+  font-size: 0.72rem;
+  padding: 2px 8px;
+  border-radius: var(--radius-full);
+  letter-spacing: 0.5px;
+  box-shadow: 0 0 10px var(--accent-ai-glow);
+}
+
+.brand-subtitle {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+}
+
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+}
+
+.connection-status-pill {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: rgba(255, 255, 255, 0.05);
+  padding: 0.4rem 0.85rem;
+  border-radius: var(--radius-full);
+  font-size: 0.78rem;
+  font-weight: 600;
+  border: 1px solid var(--border-color);
+}
+
+.status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #64748b;
+}
+
+.status-dot.simulated {
+  background: var(--solar-amber);
+  box-shadow: 0 0 8px var(--solar-amber);
+}
+
+.status-dot.connected {
+  background: var(--primary);
+  box-shadow: 0 0 8px var(--primary);
+}
+
+/* Button System */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  padding: 0.48rem 0.9rem;
+  font-size: 0.82rem;
+  font-weight: 600;
+  font-family: inherit;
+  border-radius: var(--radius-sm);
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  user-select: none;
+  touch-action: manipulation;
+}
+
+.btn:active {
+  transform: scale(0.97);
+}
+
+.btn svg, .btn i {
+  width: 15px;
+  height: 15px;
+  flex-shrink: 0;
+}
+
+.btn-primary {
+  background: var(--primary);
+  color: #0b0f19;
+}
+.btn-primary:hover {
+  background: #059669;
+  box-shadow: 0 0 15px var(--primary-glow);
+}
+
+.btn-secondary {
+  background: rgba(255, 255, 255, 0.07);
+  color: var(--text-main);
+  border-color: var(--border-color);
+}
+.btn-secondary:hover {
+  background: rgba(255, 255, 255, 0.14);
+}
+
+.btn-ble {
+  background: rgba(59, 130, 246, 0.15);
+  color: #93c5fd;
+  border-color: rgba(59, 130, 246, 0.3);
+}
+.btn-ble:hover {
+  background: rgba(59, 130, 246, 0.25);
+  box-shadow: 0 0 12px rgba(59, 130, 246, 0.3);
+}
+
+.btn-wifi {
+  background: rgba(16, 185, 129, 0.15);
+  color: #34d399;
+  border-color: rgba(16, 185, 129, 0.35);
+}
+.btn-wifi:hover {
+  background: rgba(16, 185, 129, 0.25);
+  box-shadow: 0 0 12px var(--primary-glow);
+}
+
+.btn-wifi-prominent {
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.22), rgba(6, 182, 212, 0.18));
+  color: #34d399;
+  border: 1.5px solid #10b981;
+  box-shadow: 0 0 14px rgba(16, 185, 129, 0.35);
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.btn-wifi-prominent:hover {
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.35), rgba(6, 182, 212, 0.28));
+  box-shadow: 0 0 20px rgba(16, 185, 129, 0.55);
+  transform: translateY(-1px);
+}
+
+.wifi-pulse-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #34d399;
+  display: inline-block;
+  box-shadow: 0 0 8px #34d399;
+  animation: wifiPulse 1.5s infinite;
+}
+@keyframes wifiPulse {
+  0% { transform: scale(0.95); opacity: 0.8; }
+  50% { transform: scale(1.3); opacity: 1; box-shadow: 0 0 12px #34d399; }
+  100% { transform: scale(0.95); opacity: 0.8; }
+}
+
+.wifi-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(11, 15, 25, 0.82);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 1rem;
+}
+.wifi-modal-card {
+  background: var(--bg-card);
+  border: 1px solid rgba(16, 185, 129, 0.35);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6), 0 0 25px rgba(16, 185, 129, 0.2);
+  width: 100%;
+  max-width: 520px;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.btn-success { background: #059669; color: white; }
+.btn-success:hover { background: #10b981; }
+
+.btn-warning { background: #d97706; color: white; }
+.btn-warning:hover { background: #f59e0b; }
+
+.btn-danger { background: #dc2626; color: white; }
+.btn-danger:hover { background: #ef4444; }
+
+/* Main Dashboard Container */
+.dashboard-container {
+  flex: 1;
+  padding: 1.5rem 2rem;
+  max-width: 1500px;
+  margin: 0 auto;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 1.35rem;
+}
+
+/* Crop Selection Banner */
+.banner-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  padding: 1.25rem 1.65rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: var(--shadow-card);
+  gap: 1.25rem;
+  flex-wrap: wrap;
+}
+
+.crop-selection-bar {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  flex: 1;
+}
+
+.crop-header {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.icon-sprout {
+  color: var(--primary);
+  width: 22px;
+  height: 22px;
+}
+
+.crop-header h3 {
+  font-size: 1.05rem;
+  font-weight: 700;
+}
+
+.crop-header p {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+}
+
+.seed-btn-group {
+  display: flex;
+  gap: 0.55rem;
+  flex-wrap: wrap;
+}
+
+.seed-chip {
+  background: var(--bg-input);
+  border: 1px solid var(--border-color);
+  color: var(--text-main);
+  padding: 0.45rem 0.85rem;
+  border-radius: var(--radius-full);
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  user-select: none;
+}
+
+.seed-chip .chip-sub {
+  color: var(--text-muted);
+  font-size: 0.72rem;
+  font-weight: 400;
+}
+
+.seed-chip:hover {
+  background: var(--bg-card-hover);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.seed-chip.active {
+  background: rgba(16, 185, 129, 0.15);
+  border-color: var(--primary);
+  color: var(--primary);
+  box-shadow: 0 0 12px var(--primary-glow);
+}
+
+.seed-chip.active .chip-sub {
+  color: #34d399;
+}
+
+.state-indicator-badge {
+  background: var(--bg-input);
+  border: 1px solid var(--border-color);
+  padding: 0.75rem 1.4rem;
+  border-radius: var(--radius-md);
+  text-align: right;
+  min-width: 160px;
+}
+
+.state-title {
+  font-size: 0.68rem;
+  color: var(--text-dim);
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+.state-val {
+  font-size: 1.35rem;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+}
+
+.state-val.state-drying { color: var(--primary); }
+.state-val.state-ventilating { color: var(--solar-amber); }
+.state-val.state-completed { color: #38bdf8; }
+.state-val.state-alarm_error { color: var(--danger); }
+.state-val.state-idle { color: var(--text-dim); }
+
+/* Key Metrics Grid */
+.metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1.25rem;
+}
+
+.metric-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  padding: 1.25rem 1.35rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-shadow: var(--shadow-card);
+  transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+.metric-card:hover {
+  transform: translateY(-2px);
+  border-color: rgba(255, 255, 255, 0.15);
+}
+
+.metric-card.hero-card {
+  border-left: 4px solid var(--primary);
+}
+
+.metric-card.ai-card {
+  border-left: 4px solid var(--accent-ai);
+  background: linear-gradient(180deg, rgba(139, 92, 246, 0.08) 0%, var(--bg-card) 100%);
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.75rem;
+}
+
+.card-title-wrap {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.card-title-wrap h4 {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--text-muted);
+}
+
+.icon-box {
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.icon-box svg, .icon-box i {
+  width: 17px;
+  height: 17px;
+}
+
+.icon-moisture { color: #38bdf8; background: rgba(56, 189, 248, 0.15); }
+.icon-ai { color: var(--accent-ai); background: rgba(139, 92, 246, 0.15); }
+.icon-temp { color: #f97316; background: rgba(249, 115, 22, 0.15); }
+.icon-hum { color: #06b6d4; background: rgba(6, 182, 212, 0.15); }
+.icon-solar { color: var(--solar-amber); background: rgba(245, 158, 11, 0.15); }
+.icon-actuator { color: var(--primary); background: rgba(16, 185, 129, 0.15); }
+
+.badge {
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: var(--radius-full);
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--text-main);
+}
+
+.badge-ai {
+  background: rgba(139, 92, 246, 0.2);
+  color: #c4b5fd;
+  border: 1px solid rgba(139, 92, 246, 0.3);
+}
+
+.badge-solar {
+  background: rgba(245, 158, 11, 0.2);
+  color: #fde68a;
+}
+
+.metric-hero-val {
+  font-size: 2.1rem;
+  font-weight: 800;
+  font-family: var(--font-mono);
+  display: flex;
+  align-items: baseline;
+  gap: 0.3rem;
+  margin: 0.2rem 0 0.75rem 0;
+}
+
+.metric-hero-val .unit {
+  font-size: 1.05rem;
+  color: var(--text-dim);
+  font-weight: 600;
+}
+
+.metric-hero-val.highlight-ai {
+  color: #c4b5fd;
+  text-shadow: 0 0 15px var(--accent-ai-glow);
+}
+
+.sub-time {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  font-family: var(--font-main);
+  font-weight: 500;
+  margin-left: 0.35rem;
+}
+
+.progress-bar-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  margin-bottom: 0.75rem;
+}
+
+.progress-labels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.72rem;
+  color: var(--text-muted);
+}
+
+.progress-track {
+  width: 100%;
+  height: 8px;
+  background: var(--bg-input);
+  border-radius: var(--radius-full);
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #38bdf8, var(--primary));
+  border-radius: var(--radius-full);
+  transition: width 0.4s ease;
+}
+
+.progress-fill.fill-hum {
+  background: linear-gradient(90deg, #06b6d4, #3b82f6);
+}
+
+.range-meter {
+  margin-bottom: 0.75rem;
+}
+
+.range-bar {
+  width: 100%;
+  height: 8px;
+  background: var(--bg-input);
+  border-radius: var(--radius-full);
+  position: relative;
+  overflow: hidden;
+}
+
+.safe-zone {
+  position: absolute;
+  height: 100%;
+  background: rgba(16, 185, 129, 0.4);
+}
+
+.range-pointer {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 6px;
+  background: #f97316;
+  border-radius: 2px;
+  box-shadow: 0 0 8px #f97316;
+  transition: left 0.4s ease;
+}
+
+.range-labels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  margin-top: 0.35rem;
+}
+
+.card-footer-info {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  border-top: 1px solid var(--border-color);
+  padding-top: 0.55rem;
+  display: flex;
+  justify-content: space-between;
+}
+
+.drying-rate-info {
+  display: flex;
+  gap: 0.85rem;
+  margin-bottom: 0.75rem;
+}
+
+.rate-stat {
+  flex: 1;
+  background: var(--bg-input);
+  padding: 0.4rem 0.6rem;
+  border-radius: var(--radius-sm);
+  display: flex;
+  flex-direction: column;
+}
+
+.stat-label {
+  font-size: 0.68rem;
+  color: var(--text-dim);
+}
+
+.stat-val {
+  font-size: 0.88rem;
+  font-weight: 700;
+  font-family: var(--font-mono);
+}
+
+/* Hardware Telemetry Grid */
+.hardware-telemetry-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.25rem;
+}
+
+.telemetry-panel {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  padding: 1.25rem 1.4rem;
+  box-shadow: var(--shadow-card);
+}
+
+.panel-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.power-stats-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  gap: 1rem;
+}
+
+.power-block {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.p-label {
+  font-size: 0.76rem;
+  color: var(--text-muted);
+  margin-bottom: 0.25rem;
+}
+
+.p-val-row {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.p-val {
+  font-size: 1.7rem;
+  font-weight: 800;
+  font-family: var(--font-mono);
+}
+
+.p-unit {
+  font-size: 0.95rem;
+  color: var(--text-muted);
+}
+
+.p-sub {
+  font-size: 0.72rem;
+  color: var(--text-dim);
+  margin-top: 0.25rem;
+}
+
+.power-divider, .actuator-divider {
+  width: 1px;
+  height: 52px;
+  background: var(--border-color);
+}
+
+.actuators-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  gap: 1rem;
+}
+
+.actuator-item {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+}
+
+.fan-widget {
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  background: rgba(16, 185, 129, 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(16, 185, 129, 0.3);
+}
+
+.fan-blade.spinning {
+  animation: spinFan 1s linear infinite;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.fan-spin-svg {
+  width: 24px;
+  height: 24px;
+  color: var(--primary);
+}
+
+@keyframes spinFan {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.vent-gauge-wrap {
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  background: rgba(59, 130, 246, 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  border: 1px solid rgba(59, 130, 246, 0.3);
+}
+
+.vent-gauge-angle {
+  position: absolute;
+  width: 2px;
+  height: 18px;
+  background: #60a5fa;
+  top: 5px;
+  transform-origin: bottom center;
+  transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.actuator-desc {
+  display: flex;
+  flex-direction: column;
+}
+
+.a-name {
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+.a-state {
+  font-size: 0.78rem;
+  font-weight: 600;
+}
+
+.a-sub {
+  font-size: 0.68rem;
+  color: var(--text-dim);
+}
+
+/* Real-Time Charts Grid */
+.charts-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.25rem;
+}
+
+.chart-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  padding: 1.25rem 1.4rem;
+  box-shadow: var(--shadow-card);
+  display: flex;
+  flex-direction: column;
+}
+
+.chart-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 0.85rem;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.chart-header h4 {
+  font-size: 0.92rem;
+  font-weight: 700;
+}
+
+.chart-header p {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+}
+
+.chart-legend-custom {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  font-size: 0.7rem;
+  color: var(--text-muted);
+}
+
+.legend-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.dot-actual { background: #38bdf8; }
+.dot-target { background: #f43f5e; }
+.dot-temp { background: #f97316; }
+.dot-rh { background: #06b6d4; }
+
+.chart-wrapper {
+  position: relative;
+  height: 230px;
+  width: 100%;
+}
+
+/* Control & Alerts Grid */
+.control-alerts-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.25rem;
+}
+
+.panel-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  padding: 1.25rem 1.4rem;
+  box-shadow: var(--shadow-card);
+}
+
+.control-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+  margin-top: 0.4rem;
+}
+
+.form-group label {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  display: block;
+  margin-bottom: 0.45rem;
+}
+
+.input-slider-row {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+}
+
+.input-slider-row input[type="range"] {
+  flex: 1;
+  accent-color: var(--primary);
+  height: 6px;
+  border-radius: 4px;
+  outline: none;
+}
+
+.slider-val {
+  font-family: var(--font-mono);
+  font-size: 0.95rem;
+  font-weight: 700;
+  min-width: 48px;
+}
+
+.button-action-row {
+  display: flex;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+}
+
+.alert-feed {
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+  max-height: 180px;
+  overflow-y: auto;
+}
+
+.alert-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.65rem;
+  padding: 0.65rem 0.8rem;
+  border-radius: var(--radius-md);
+  font-size: 0.78rem;
+  border: 1px solid transparent;
+}
+
+.alert-item svg, .alert-item i {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.alert-info {
+  background: rgba(59, 130, 246, 0.1);
+  border-color: rgba(59, 130, 246, 0.2);
+  color: #93c5fd;
+}
+
+.alert-warn {
+  background: rgba(245, 158, 11, 0.1);
+  border-color: rgba(245, 158, 11, 0.25);
+  color: #fde68a;
+}
+
+.alert-danger {
+  background: rgba(239, 68, 68, 0.1);
+  border-color: rgba(239, 68, 68, 0.25);
+  color: #fca5a5;
+}
+
+.alert-text strong {
+  display: block;
+  font-weight: 700;
+}
+
+.alert-time {
+  font-size: 0.68rem;
+  color: var(--text-dim);
+  margin-top: 0.2rem;
+  display: block;
+}
+
+/* Footer */
+.footer {
+  margin-top: auto;
+  border-top: 1px solid var(--border-color);
+  padding: 1.2rem 2rem;
+  background: rgba(19, 27, 46, 0.6);
+  text-align: center;
+}
+
+.footer-brand-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  margin-bottom: 0.3rem;
+}
+
+.footer-logo-img {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  border: 1px solid #f59e0b;
+}
+
+.footer-content {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+}
+
+.footer-content .sub {
+  font-size: 0.7rem;
+  color: var(--text-dim);
+  margin-top: 0.2rem;
+}
+
+.text-green { color: var(--primary) !important; }
+.text-yellow { color: var(--solar-amber) !important; }
+.text-orange { color: #f97316 !important; }
+.text-red { color: var(--danger) !important; }
+
+/* ==========================================================================
+   MOBILE & RESPONSIVE BREAKPOINTS (Android APK / Smartphone Optimized)
+   ========================================================================== */
+@media (max-width: 992px) {
+  .charts-grid,
+  .hardware-telemetry-grid,
+  .control-alerts-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .navbar {
+    padding: max(0.65rem, env(safe-area-inset-top)) 1rem 0.65rem 1rem;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .nav-brand {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .nav-actions {
+    width: 100%;
+    justify-content: flex-start;
+    overflow-x: auto;
+    padding-bottom: 0.2rem;
+  }
+
+  .dashboard-container {
+    padding: 1rem;
+    gap: 1rem;
+  }
+
+  .banner-card {
+    padding: 1rem;
+  }
+
+  .state-indicator-badge {
+    width: 100%;
+    text-align: left;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .metrics-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .chart-wrapper {
+    height: 200px;
+  }
+}
+  </style>
+</head>
+<body>
+
+  <!-- Top Navigation Bar -->
+  <header class="navbar">
+    <div class="nav-brand">
+      <div class="brand-logo-container">
+        <img src="logo.jpg" alt="Prakashan AI" class="brand-logo-img" onerror="this.style.display='none'; document.getElementById('logoSvgFallback').style.display='block';">
+        <svg id="logoSvgFallback" style="display:none; width:30px; height:30px; color:#10b981;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M12 2v8"></path><path d="m4.93 10.93 1.41 1.41"></path><path d="M2 18h2"></path><path d="M20 18h2"></path><path d="m19.07 10.93-1.41 1.41"></path><path d="M22 22H2"></path><path d="m16 6-4 4-4-4"></path><path d="M16 18a4 4 0 0 0-8 0"></path>
+        </svg>
+      </div>
+      <div>
+        <h1 class="brand-title">PRAKASHAN <span class="ai-badge">AI</span></h1>
+        <p class="brand-subtitle">Drying solutions for global agriculture • Smart Solar Seed Dryer</p>
+      </div>
+    </div>
+
+    <div class="nav-actions">
+      <div class="connection-status-pill" id="connStatusPill">
+        <span class="status-dot simulated"></span>
+        <span id="connStatusText">SIMULATION MODE</span>
+      </div>
+      
+      <!-- USB Serial Reader Button -->
+      <button class="btn btn-secondary" id="btnConnectSerial" title="Connect directly to Arduino Uno via USB OTG">
+        <i data-lucide="usb"></i>
+        <span>Connect USB</span>
+      </button>
+
+      <!-- Wireless Bluetooth BLE Reader Button -->
+      <button class="btn btn-ble" id="btnConnectBle" title="Connect wirelessly via Bluetooth HC-05 / ESP32">
+        <i data-lucide="bluetooth"></i>
+        <span>Connect Bluetooth</span>
+      </button>
+
+      <!-- Specific Dedicated Wireless Wi-Fi Button -->
+      <button class="btn btn-wifi-prominent" id="btnConnectWifi" title="Wireless Wi-Fi Sync (Laptop / APK / ESP32)">
+        <span class="wifi-pulse-dot"></span>
+        <i data-lucide="wifi"></i>
+        <span>Wi-Fi Wireless</span>
+      </button>
+
+      <!-- MicroSD Card CSV Log Reader Button -->
+      <button class="btn btn-secondary" id="btnReadSdLog" title="Read and visualize DATALOG.CSV from MicroSD card">
+        <i data-lucide="file-text"></i>
+        <span>Read SD Log</span>
+      </button>
+      <input type="file" id="sdFileInput" accept=".csv,.txt,.log" style="display: none;">
+
+      <!-- Voice Guidance Read-Aloud Button -->
+      <button class="btn btn-secondary" id="btnReadAloud" title="Speak live moisture, temperature, and drying status aloud">
+        <i data-lucide="volume-2"></i>
+        <span>Read Aloud</span>
+      </button>
+
+      <!-- Simulation Engine Toggle -->
+      <button class="btn btn-primary" id="btnToggleSim" title="Toggle autonomous physics simulation engine">
+        <i data-lucide="play-circle"></i>
+        <span id="simToggleText">Sim: Active</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Main Dashboard Container -->
+  <main class="dashboard-container">
+    
+    <!-- Top System Banner & Seed Profile Selector -->
+    <section class="banner-card">
+      <div class="crop-selection-bar">
+        <div class="crop-header">
+          <i data-lucide="sprout" class="icon-sprout"></i>
+          <div>
+            <h3>Active Seed Crop Profile</h3>
+            <p>Thermal threshold automatically tuned for germination embryo protection</p>
+          </div>
+        </div>
+
+        <div class="seed-btn-group" id="seedButtonGroup">
+          <button class="seed-chip active" data-seed="PADDY" data-target="13.0" data-maxtemp="42.0">
+            🌾 Paddy (Rice) <span class="chip-sub">Target: 13.0%</span>
+          </button>
+          <button class="seed-chip" data-seed="WHEAT" data-target="12.0" data-maxtemp="40.0">
+            🌾 Wheat <span class="chip-sub">Target: 12.0%</span>
+          </button>
+          <button class="seed-chip" data-seed="MAIZE" data-target="13.5" data-maxtemp="43.0">
+            🌽 Maize (Corn) <span class="chip-sub">Target: 13.5%</span>
+          </button>
+          <button class="seed-chip" data-seed="SOYBEAN" data-target="11.0" data-maxtemp="38.0">
+            🌱 Soybean <span class="chip-sub">Target: 11.0%</span>
+          </button>
+          <button class="seed-chip" data-seed="MUSTARD" data-target="8.5" data-maxtemp="36.0">
+            🌿 Mustard <span class="chip-sub">Target: 8.5%</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="state-indicator-badge" id="systemStateBadge">
+        <div>
+          <span class="state-title">SYSTEM STATE</span>
+          <h2 id="systemStateText" class="state-val state-drying">DRYING</h2>
+        </div>
+      </div>
+    </section>
+
+    <!-- Key Metrics Grid -->
+    <section class="metrics-grid">
+      
+      <!-- Metric 1: Seed Moisture (Hero Metric) -->
+      <div class="metric-card hero-card">
+        <div class="card-header">
+          <div class="card-title-wrap">
+            <div class="icon-box icon-moisture"><i data-lucide="droplets"></i></div>
+            <h4>Seed Moisture Content</h4>
+          </div>
+          <span class="badge" id="moistureDeltaBadge">-5.2% to target</span>
+        </div>
+
+        <div class="metric-hero-val">
+          <span id="valMoisture">18.2</span><span class="unit">%</span>
+        </div>
+
+        <div class="progress-bar-container">
+          <div class="progress-labels">
+            <span>Harvest: ~24%</span>
+            <span>Target: <b id="valTargetMoistLabel">13.0%</b></span>
+          </div>
+          <div class="progress-track">
+            <div class="progress-fill" id="moistureProgressFill" style="width: 58%;"></div>
+          </div>
+        </div>
+
+        <div class="card-footer-info">
+          <span>Equilibrium Moisture (EMC): <b id="valEmc">11.8%</b></span>
+        </div>
+      </div>
+
+      <!-- Metric 2: AI Estimated Remaining Drying Time -->
+      <div class="metric-card ai-card">
+        <div class="card-header">
+          <div class="card-title-wrap">
+            <div class="icon-box icon-ai"><i data-lucide="brain-circuit"></i></div>
+            <h4>AI Estimated Drying Time</h4>
+          </div>
+          <span class="badge badge-ai">Thin-Layer ML</span>
+        </div>
+
+        <div class="metric-hero-val highlight-ai">
+          <span id="valRemainingHrs">2.4</span><span class="unit">HRS</span>
+          <span class="sub-time" id="valRemainingMins">(~144 mins)</span>
+        </div>
+
+        <div class="drying-rate-info">
+          <div class="rate-stat">
+            <span class="stat-label">Drying Rate</span>
+            <span class="stat-val" id="valDryingRate">1.8% / hr</span>
+          </div>
+          <div class="rate-stat">
+            <span class="stat-label">Efficiency Index</span>
+            <span class="stat-val text-green" id="valEfficiency">94%</span>
+          </div>
+        </div>
+
+        <div class="card-footer-info">
+          <span>Target Completion: <b id="valEtaTimestamp">--:--</b></span>
+        </div>
+      </div>
+
+      <!-- Metric 3: Chamber Temperature -->
+      <div class="metric-card">
+        <div class="card-header">
+          <div class="card-title-wrap">
+            <div class="icon-box icon-temp"><i data-lucide="thermometer"></i></div>
+            <h4>Chamber Temperature</h4>
+          </div>
+          <span class="badge" id="tempStatusBadge">Safe Zone</span>
+        </div>
+
+        <div class="metric-hero-val">
+          <span id="valTemp">37.4</span><span class="unit">°C</span>
+        </div>
+
+        <div class="range-meter">
+          <div class="range-bar">
+            <div class="safe-zone" style="left: 45%; width: 35%;"></div>
+            <div class="range-pointer" id="tempPointer" style="left: 65%;"></div>
+          </div>
+          <div class="range-labels">
+            <span>Min 25°C</span>
+            <span class="text-orange">Safe Max: <b id="valMaxTempLabel">42°C</b></span>
+          </div>
+        </div>
+
+        <div class="card-footer-info">
+          <span>Germination Vitality: <b id="valGermHealth" class="text-green">100%</b></span>
+        </div>
+      </div>
+
+      <!-- Metric 4: Relative Humidity -->
+      <div class="metric-card">
+        <div class="card-header">
+          <div class="card-title-wrap">
+            <div class="icon-box icon-hum"><i data-lucide="cloud-rain"></i></div>
+            <h4>Chamber Humidity</h4>
+          </div>
+          <span class="badge" id="rhStatusBadge">Good Airflow</span>
+        </div>
+
+        <div class="metric-hero-val">
+          <span id="valHumidity">44.5</span><span class="unit">%</span>
+        </div>
+
+        <div class="progress-bar-container">
+          <div class="progress-track">
+            <div class="progress-fill fill-hum" id="humProgressFill" style="width: 44.5%;"></div>
+          </div>
+        </div>
+
+        <div class="card-footer-info">
+          <span>Venting Potential: <b id="valVentingPot" class="text-green">High (Dry air)</b></span>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- Solar Power & Actuator Hardware Telemetry Row -->
+    <section class="hardware-telemetry-grid">
+      
+      <!-- Solar & Battery Card -->
+      <div class="telemetry-panel">
+        <div class="panel-header">
+          <div class="card-title-wrap">
+            <div class="icon-box icon-solar"><i data-lucide="sun"></i></div>
+            <h4>Renewable Solar & Battery Power</h4>
+          </div>
+          <span class="badge badge-solar">12V Off-Grid</span>
+        </div>
+
+        <div class="power-stats-row">
+          <div class="power-block">
+            <span class="p-label">Solar Irradiance</span>
+            <div class="p-val-row">
+              <i data-lucide="sun-dim" class="p-icon text-yellow"></i>
+              <span id="valSolarPct" class="p-val">82</span>
+              <span class="p-unit">%</span>
+            </div>
+            <span class="p-sub" id="valPvVolt">PV: 18.2 V</span>
+          </div>
+
+          <div class="power-divider"></div>
+
+          <div class="power-block">
+            <span class="p-label">12V Battery Bank</span>
+            <div class="p-val-row">
+              <i data-lucide="battery-charging" class="p-icon text-green" id="batIcon"></i>
+              <span id="valBatVolt" class="p-val">12.6</span>
+              <span class="p-unit">V</span>
+            </div>
+            <span class="p-sub" id="valBatSoc">State of Charge: 92%</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Chamber Actuators Card -->
+      <div class="telemetry-panel">
+        <div class="panel-header">
+          <div class="card-title-wrap">
+            <div class="icon-box icon-actuator"><i data-lucide="cog"></i></div>
+            <h4>Active Chamber Actuators</h4>
+          </div>
+          <span class="badge" id="actuatorModeBadge">AI Auto-Drive</span>
+        </div>
+
+        <div class="actuators-row">
+          <div class="actuator-item">
+            <div class="fan-widget">
+              <div class="fan-blade spinning" id="fanBladeIcon">
+                <i data-lucide="fan" class="fan-spin-svg"></i>
+              </div>
+            </div>
+            <div class="actuator-desc">
+              <span class="a-name">DC Blower Fan</span>
+              <span class="a-state text-green" id="valFanStatus">ACTIVE (100%)</span>
+              <span class="a-sub">Relay Pin D8</span>
+            </div>
+          </div>
+
+          <div class="actuator-divider"></div>
+
+          <div class="actuator-item">
+            <div class="vent-gauge-wrap">
+              <div class="vent-gauge-angle" id="ventAngleVisual" style="transform: rotate(45deg);"></div>
+              <i data-lucide="wind" class="vent-icon"></i>
+            </div>
+            <div class="actuator-desc">
+              <span class="a-name">Motorized Vent Flap</span>
+              <span class="a-state" id="valVentAngle">45° (Exhaust)</span>
+              <span class="a-sub">Servo PWM Pin D9</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- Real-Time Chart Visualizations -->
+    <section class="charts-grid">
+      
+      <!-- Chart 1: Moisture Decay vs AI Forecast Curve -->
+      <div class="chart-card">
+        <div class="chart-header">
+          <div>
+            <h4>🌾 Seed Moisture Drying Trajectory</h4>
+            <p>Real-time sensed moisture compared with AI thin-layer kinetics forecast</p>
+          </div>
+          <div class="chart-legend-custom">
+            <span class="legend-dot dot-actual"></span> <span>Actual Moisture</span>
+            <span class="legend-dot dot-target"></span> <span>Target Safe</span>
+          </div>
+        </div>
+        <div class="chart-wrapper">
+          <canvas id="moistureChart"></canvas>
+        </div>
+      </div>
+
+      <!-- Chart 2: Chamber Temperature & Humidity -->
+      <div class="chart-card">
+        <div class="chart-header">
+          <div>
+            <h4>🌡 Chamber Environment (Temp & RH)</h4>
+            <p>Micro-climate regulation with critical seed thermal safety limit</p>
+          </div>
+          <div class="chart-legend-custom">
+            <span class="legend-dot dot-temp"></span> <span>Chamber Temp (°C)</span>
+            <span class="legend-dot dot-rh"></span> <span>Humidity (%)</span>
+          </div>
+        </div>
+        <div class="chart-wrapper">
+          <canvas id="tempHumChart"></canvas>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- Controls & Alert Feed Row -->
+    <section class="control-alerts-grid">
+      
+      <!-- Interactive System Controls -->
+      <div class="panel-card">
+        <div class="panel-header">
+          <div class="card-title-wrap">
+            <div class="icon-box"><i data-lucide="sliders"></i></div>
+            <h4>Dryer Control Console</h4>
+          </div>
+        </div>
+
+        <div class="control-form">
+          <div class="form-group">
+            <label for="targetSlider">Target Moisture Setpoint (%):</label>
+            <div class="input-slider-row">
+              <input type="range" id="targetSlider" min="7.0" max="18.0" step="0.5" value="13.0">
+              <span class="slider-val" id="sliderValDisplay">13.0%</span>
+            </div>
+          </div>
+
+          <div class="button-action-row">
+            <button class="btn btn-success" id="btnStartDryer">
+              <i data-lucide="play"></i> Start Drying
+            </button>
+            <button class="btn btn-warning" id="btnVentFlush">
+              <i data-lucide="wind"></i> Flush Vent
+            </button>
+            <button class="btn btn-danger" id="btnStopDryer">
+              <i data-lucide="square"></i> Emergency Stop
+            </button>
+            <button class="btn btn-secondary" id="btnExportCsv">
+              <i data-lucide="download"></i> Export Session CSV
+            </button>
+            <button class="btn btn-wifi" id="btnConsoleWifi">
+              <i data-lucide="wifi"></i> Wi-Fi Wireless Link
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Live AI Alerts & System Events -->
+      <div class="panel-card">
+        <div class="panel-header">
+          <div class="card-title-wrap">
+            <div class="icon-box"><i data-lucide="bell"></i></div>
+            <h4>AI Intelligence & Safety Alerts</h4>
+          </div>
+          <span class="badge badge-normal" id="alertCountBadge">All Systems Normal</span>
+        </div>
+
+        <div class="alert-feed" id="alertFeedContainer">
+          <div class="alert-item alert-info">
+            <i data-lucide="check-circle-2" class="alert-icon"></i>
+            <div class="alert-text">
+              <strong>Prakashan AI Initialized</strong>
+              <p>Multi-source telemetry reading active (USB, Bluetooth, SD Log, Voice). Seed embryo protection enabled.</p>
+              <span class="alert-time">Just now</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+  <!-- Dedicated Wireless Wi-Fi Control Modal -->
+  <div class="wifi-modal-overlay" id="wifiModal" style="display: none;">
+    <div class="wifi-modal-card">
+      <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-color); padding-bottom: 0.75rem;">
+        <div style="display: flex; align-items: center; gap: 0.6rem;">
+          <div class="icon-box" style="background: rgba(16, 185, 129, 0.2); color: #10b981;"><i data-lucide="wifi"></i></div>
+          <h3 style="font-size: 1.1rem; font-weight: 700;">Wireless Wi-Fi Telemetry Link</h3>
+        </div>
+        <button id="btnCloseWifiModal" style="background: transparent; border: none; color: var(--text-muted); cursor: pointer; font-size: 1.3rem; padding: 0.2rem 0.5rem;">✕</button>
+      </div>
+
+      <div style="background: var(--bg-input); padding: 0.85rem 1rem; border-radius: var(--radius-md); border: 1px solid var(--border-color);">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.4rem;">
+          <span style="font-size: 0.8rem; color: var(--text-muted);">Wi-Fi Connection Status:</span>
+          <span class="badge badge-normal text-green" id="wifiModalStatusBadge">Ready to Connect</span>
+        </div>
+        <p style="font-size: 0.78rem; color: var(--text-dim);">Broadcast IP: <b style="color: #34d399;" id="wifiModalIpText">192.168.0.103:8080</b></p>
+      </div>
+
+      <div>
+        <label style="font-size: 0.8rem; color: var(--text-muted); display: block; margin-bottom: 0.5rem;">Quick Connect Options:</label>
+        <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+          <button class="btn btn-secondary" id="btnQuickLaptopWifi" style="justify-content: flex-start; text-align: left;">
+            <i data-lucide="laptop"></i> <span>Laptop Wi-Fi Server (http://192.168.0.103:8080)</span>
+          </button>
+          <button class="btn btn-secondary" id="btnQuickEsp32Wifi" style="justify-content: flex-start; text-align: left;">
+            <i data-lucide="radio"></i> <span>ESP32 Hardware AP (http://192.168.4.1)</span>
+          </button>
+          <button class="btn btn-secondary" id="btnQuickLocalhostWifi" style="justify-content: flex-start; text-align: left;">
+            <i data-lucide="server"></i> <span>Localhost Test (http://localhost:8080)</span>
+          </button>
+        </div>
+      </div>
+
+      <div>
+        <label for="customWifiUrl" style="font-size: 0.8rem; color: var(--text-muted); display: block; margin-bottom: 0.4rem;">Custom Wi-Fi Server URL / IP:</label>
+        <div style="display: flex; gap: 0.5rem;">
+          <input type="text" id="customWifiUrl" value="http://192.168.0.103:8080/api/telemetry" style="flex: 1; background: var(--bg-input); border: 1px solid var(--border-color); color: var(--text-main); padding: 0.5rem 0.75rem; border-radius: var(--radius-sm); font-family: var(--font-mono); font-size: 0.82rem;">
+          <button class="btn btn-primary" id="btnConnectCustomWifi">Connect</button>
+        </div>
+      </div>
+
+      <div style="border-top: 1px solid var(--border-color); padding-top: 0.75rem; display: flex; justify-content: space-between; align-items: center;">
+        <button class="btn btn-danger" id="btnDisconnectWifi">Disconnect Wi-Fi</button>
+        <span style="font-size: 0.72rem; color: var(--text-dim);">Works on Android APK & Browsers</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-content">
+      <div class="footer-brand-wrap">
+        <img src="logo.jpg" alt="Prakashan AI" class="footer-logo-img" onerror="this.style.display='none';">
+        <span><strong>PRAKASHAN AI</strong> — <em>Drying solutions for global agriculture</em></span>
+      </div>
+      <p class="sub">MSME Agricultural Innovation • Standalone APK-Ready Dashboard • Hardware: Arduino Uno R3 • Edge ML Thin-Layer Regressor</p>
+    </div>
+  </footer>
+
+  <!-- Full Standalone APK-Ready Controller Script -->
+  <script>
+/**
+ * ============================================================================
+ * PRAKASHAN AI - Smart Solar Seed Dryer Controller
+ * "Drying solutions for global agriculture"
+ * ============================================================================
+ * Multi-Source Telemetry & Reading Engine:
+ * 1. Web Serial USB (Arduino Uno via USB-C / OTG at 115200 baud)
+ * 2. Web Bluetooth BLE (Wireless HC-05 / ESP32 / BLE UART)
+ * 3. MicroSD Card CSV Log Reader (DATALOG.CSV parser & trajectory plotter)
+ * 4. Voice Read-Aloud (SpeechSynthesis audio reports for farmers in the field)
+ * 5. Realistic Physics & AI Thin-Layer Simulation Engine
+ * 6. Session Data CSV Exporter
+ * ============================================================================
+ */
+
+// Global Application State
+const appState = {
+  mode: "SIMULATION", // "SIMULATION" | "SERIAL" | "BLUETOOTH" | "FILE"
+  isSimulating: true,
+  
+  // Connection Handles
+  serialPort: null,
+  serialReader: null,
+  bleDevice: null,
+  bleCharacteristic: null,
+  
+  // Active Seed Profile
+  activeSeed: "PADDY",
+  targetMoisture: 13.0,
+  maxSafeTemp: 42.0,
+  
+  // Real-time Telemetry Values
+  temp: 36.8,
+  humidity: 48.2,
+  moisture: 21.4,
+  solarPct: 84.0,
+  batVoltage: 12.65,
+  pvVoltage: 18.2,
+  fanActive: true,
+  ventAngle: 60,
+  systemState: "DRYING",
+  elapsedSeconds: 0,
+  
+  // AI Estimations
+  remainingMins: 165.0,
+  emc: 11.6,
+  germinationHealth: 100,
+  dryingRatePerHour: 1.8,
+  
+  // Historical Log for Charts
+  historyLabels: [],
+  historyMoisture: [],
+  historyTarget: [],
+  historyTemp: [],
+  historyHum: [],
+  
+  // Full session records for CSV export
+  sessionRecords: []
+};
+
+// Seed Configuration Matrix
+const CROP_PROFILES = {
+  "PADDY":   { name: "Paddy (Rice)", target: 13.0, maxTemp: 42.0, initialM: 22.5, A: 11.5, B: -0.045, C: 2.65 },
+  "WHEAT":   { name: "Wheat",        target: 12.0, maxTemp: 40.0, initialM: 20.0, A: 10.8, B: -0.040, C: 2.50 },
+  "MAIZE":   { name: "Maize (Corn)", target: 13.5, maxTemp: 43.0, initialM: 24.0, A: 12.0, B: -0.050, C: 2.70 },
+  "SOYBEAN": { name: "Soybean",      target: 11.0, maxTemp: 38.0, initialM: 18.5, A: 8.5,  B: -0.035, C: 2.20 },
+  "MUSTARD": { name: "Mustard",      target: 8.5,  maxTemp: 36.0, initialM: 16.0, A: 6.8,  B: -0.028, C: 1.95 }
+};
+
+// DOM Elements Cache
+let DOM = {};
+
+function cacheDomElements() {
+  DOM = {
+    connStatusPill: document.getElementById("connStatusPill"),
+    connStatusText: document.getElementById("connStatusText"),
+    btnConnectSerial: document.getElementById("btnConnectSerial"),
+    btnConnectBle: document.getElementById("btnConnectBle"),
+    btnConnectWifi: document.getElementById("btnConnectWifi"),
+    btnReadSdLog: document.getElementById("btnReadSdLog"),
+    sdFileInput: document.getElementById("sdFileInput"),
+    btnReadAloud: document.getElementById("btnReadAloud"),
+    btnToggleSim: document.getElementById("btnToggleSim"),
+    simToggleText: document.getElementById("simToggleText"),
+    
+    seedButtonGroup: document.getElementById("seedButtonGroup"),
+    systemStateBadge: document.getElementById("systemStateBadge"),
+    systemStateText: document.getElementById("systemStateText"),
+    
+    valMoisture: document.getElementById("valMoisture"),
+    moistureDeltaBadge: document.getElementById("moistureDeltaBadge"),
+    valTargetMoistLabel: document.getElementById("valTargetMoistLabel"),
+    moistureProgressFill: document.getElementById("moistureProgressFill"),
+    valEmc: document.getElementById("valEmc"),
+    
+    valRemainingHrs: document.getElementById("valRemainingHrs"),
+    valRemainingMins: document.getElementById("valRemainingMins"),
+    valDryingRate: document.getElementById("valDryingRate"),
+    valEfficiency: document.getElementById("valEfficiency"),
+    valEtaTimestamp: document.getElementById("valEtaTimestamp"),
+    
+    valTemp: document.getElementById("valTemp"),
+    tempStatusBadge: document.getElementById("tempStatusBadge"),
+    tempPointer: document.getElementById("tempPointer"),
+    valMaxTempLabel: document.getElementById("valMaxTempLabel"),
+    valGermHealth: document.getElementById("valGermHealth"),
+    
+    valHumidity: document.getElementById("valHumidity"),
+    rhStatusBadge: document.getElementById("rhStatusBadge"),
+    humProgressFill: document.getElementById("humProgressFill"),
+    valVentingPot: document.getElementById("valVentingPot"),
+    
+    valSolarPct: document.getElementById("valSolarPct"),
+    valPvVolt: document.getElementById("valPvVolt"),
+    valBatVolt: document.getElementById("valBatVolt"),
+    valBatSoc: document.getElementById("valBatSoc"),
+    batIcon: document.getElementById("batIcon"),
+    
+    fanBladeIcon: document.getElementById("fanBladeIcon"),
+    valFanStatus: document.getElementById("valFanStatus"),
+    ventAngleVisual: document.getElementById("ventAngleVisual"),
+    valVentAngle: document.getElementById("valVentAngle"),
+    
+    targetSlider: document.getElementById("targetSlider"),
+    sliderValDisplay: document.getElementById("sliderValDisplay"),
+    btnStartDryer: document.getElementById("btnStartDryer"),
+    btnVentFlush: document.getElementById("btnVentFlush"),
+    btnStopDryer: document.getElementById("btnStopDryer"),
+    btnExportCsv: document.getElementById("btnExportCsv"),
+    
+    alertFeedContainer: document.getElementById("alertFeedContainer"),
+    alertCountBadge: document.getElementById("alertCountBadge")
+  };
+}
+
+// Chart Instances
+let moistureChartInstance = null;
+let tempHumChartInstance = null;
+
+// ============================================================================
+// INITIALIZATION
+// ============================================================================
+document.addEventListener("DOMContentLoaded", () => {
+  cacheDomElements();
+  if (window.lucide && typeof window.lucide.createIcons === "function") {
+    window.lucide.createIcons();
+  }
+  
+  // Register Service Worker for Offline PWA & APK support
+  if ("serviceWorker" in navigator) {
+    navigator.serviceWorker.register("./sw.js").then(() => {
+      console.log("[Prakashan AI] Offline Service Worker registered.");
+    }).catch(err => {
+      console.log("[Prakashan AI] Service Worker registration note:", err.message);
+    });
+  }
+  
+  initCharts();
+  bindEventListeners();
+  initWifiModalControls();
+  initSimulationBaseline();
+  
+  // Start Main Update Loop (1000ms interval)
+  setInterval(mainSystemTick, 1000);
+});
+
+// ============================================================================
+// CHARTS INITIALIZATION (Chart.js)
+// ============================================================================
+function initCharts() {
+  const chartCanvasMoist = document.getElementById("moistureChart");
+  const chartCanvasTempHum = document.getElementById("tempHumChart");
+  
+  if (!chartCanvasMoist || !chartCanvasTempHum || typeof Chart === "undefined") {
+    console.warn("Chart.js or canvas element not available.");
+    return;
+  }
+
+  const chartOptionsBase = {
+    responsive: true,
+    maintainAspectRatio: false,
+    animation: { duration: 300 },
+    plugins: {
+      legend: { display: false },
+      tooltip: {
+        backgroundColor: "rgba(19, 27, 46, 0.95)",
+        borderColor: "rgba(255, 255, 255, 0.1)",
+        borderWidth: 1,
+        titleFont: { family: "Plus Jakarta Sans", size: 12 },
+        bodyFont: { family: "JetBrains Mono", size: 11 }
+      }
+    },
+    scales: {
+      x: {
+        grid: { color: "rgba(255, 255, 255, 0.05)" },
+        ticks: { color: "#64748b", font: { family: "JetBrains Mono", size: 10 } }
+      },
+      y: {
+        grid: { color: "rgba(255, 255, 255, 0.05)" },
+        ticks: { color: "#64748b", font: { family: "JetBrains Mono", size: 10 } }
+      }
+    }
+  };
+
+  // 1. Moisture Decay Chart
+  const ctxMoist = chartCanvasMoist.getContext("2d");
+  moistureChartInstance = new Chart(ctxMoist, {
+    type: "line",
+    data: {
+      labels: [],
+      datasets: [
+        {
+          label: "Current Seed Moisture (%)",
+          data: [],
+          borderColor: "#38bdf8",
+          backgroundColor: "rgba(56, 189, 248, 0.12)",
+          borderWidth: 2.5,
+          tension: 0.3,
+          fill: true,
+          pointRadius: 2
+        },
+        {
+          label: "Target Safe Moisture (%)",
+          data: [],
+          borderColor: "#f43f5e",
+          borderWidth: 1.5,
+          borderDash: [5, 5],
+          pointRadius: 0,
+          fill: false
+        }
+      ]
+    },
+    options: {
+      ...chartOptionsBase,
+      scales: {
+        ...chartOptionsBase.scales,
+        y: {
+          ...chartOptionsBase.scales.y,
+          min: 6,
+          max: 26,
+          ticks: { callback: v => v + "%", color: "#64748b" }
+        }
+      }
+    }
+  });
+
+  // 2. Chamber Temp & Humidity Chart
+  const ctxTempHum = chartCanvasTempHum.getContext("2d");
+  tempHumChartInstance = new Chart(ctxTempHum, {
+    type: "line",
+    data: {
+      labels: [],
+      datasets: [
+        {
+          label: "Chamber Temp (°C)",
+          data: [],
+          borderColor: "#f97316",
+          backgroundColor: "rgba(249, 115, 22, 0.08)",
+          borderWidth: 2,
+          tension: 0.3,
+          yAxisID: "yTemp",
+          pointRadius: 2
+        },
+        {
+          label: "Relative Humidity (%)",
+          data: [],
+          borderColor: "#06b6d4",
+          backgroundColor: "rgba(6, 182, 212, 0.08)",
+          borderWidth: 2,
+          tension: 0.3,
+          yAxisID: "yHum",
+          pointRadius: 2
+        }
+      ]
+    },
+    options: {
+      ...chartOptionsBase,
+      scales: {
+        x: chartOptionsBase.scales.x,
+        yTemp: {
+          type: "linear",
+          position: "left",
+          min: 20,
+          max: 55,
+          grid: { color: "rgba(255, 255, 255, 0.05)" },
+          ticks: { callback: v => v + "°C", color: "#f97316" }
+        },
+        yHum: {
+          type: "linear",
+          position: "right",
+          min: 10,
+          max: 90,
+          grid: { drawOnChartArea: false },
+          ticks: { callback: v => v + "%", color: "#06b6d4" }
+        }
+      }
+    }
+  });
+}
+
+// ============================================================================
+// SIMULATION BASELINE GENERATOR
+// ============================================================================
+function initSimulationBaseline() {
+  const profile = CROP_PROFILES[appState.activeSeed] || CROP_PROFILES["PADDY"];
+  appState.moisture = profile.initialM;
+  appState.targetMoisture = profile.target;
+  appState.maxSafeTemp = profile.maxTemp;
+  appState.elapsedSeconds = 0;
+  
+  // Clear charts
+  appState.historyLabels = [];
+  appState.historyMoisture = [];
+  appState.historyTarget = [];
+  appState.historyTemp = [];
+  appState.historyHum = [];
+  
+  // Pre-seed some initial visual points
+  for (let i = 10; i >= 0; i--) {
+    const timeStr = `${-i * 2}m`;
+    const m = profile.initialM + (i * 0.15);
+    appState.historyLabels.push(timeStr);
+    appState.historyMoisture.push(parseFloat(m.toFixed(2)));
+    appState.historyTarget.push(profile.target);
+    appState.historyTemp.push(parseFloat((34.5 + Math.random() * 2.0).toFixed(1)));
+    appState.historyHum.push(parseFloat((52.0 - Math.random() * 3.0).toFixed(1)));
+  }
+  updateChartsUI();
+}
+
+// ============================================================================
+// AI THIN-LAYER DRYING LOGIC & COMPUTATION
+// ============================================================================
+function computeAiInsights() {
+  const profile = CROP_PROFILES[appState.activeSeed] || CROP_PROFILES["PADDY"];
+  
+  // Equilibrium Moisture Content (EMC)
+  const aVal = profile.A + profile.B * appState.temp;
+  const rhRatio = Math.max(0.05, Math.min(0.95, appState.humidity / 100.0));
+  const emcVal = aVal * Math.pow(rhRatio / (1.0 - rhRatio), 1.0 / profile.C);
+  appState.emc = Math.max(4.5, Math.min(22.0, emcVal));
+  
+  // Remaining Drying Time Estimation using Page Thin-Layer Kinetics
+  const deltaM = appState.moisture - appState.targetMoisture;
+  if (deltaM <= 0.05) {
+    appState.remainingMins = 0;
+  } else {
+    const tKelvin = appState.temp + 273.15;
+    const kThermal = 0.45 * Math.exp(-28500.0 / (8.314 * tKelvin)) * 1150.0;
+    const kEff = kThermal * (1.0 + (appState.solarPct / 100.0) * 0.35) * (1.0 - (appState.humidity / 160.0));
+    
+    const usableDrivingForce = Math.max(0.5, appState.moisture - appState.emc);
+    const targetDiff = Math.max(0.1, appState.targetMoisture - appState.emc);
+    const ratio = targetDiff / usableDrivingForce;
+    
+    if (ratio < 1.0 && ratio > 0.01) {
+      const estHours = Math.pow(-Math.log(ratio), 1.0 / 0.84) / Math.max(0.05, kEff);
+      appState.remainingMins = estHours * 60.0;
+    } else {
+      appState.remainingMins = deltaM * 20.0;
+    }
+  }
+  
+  // Drying rate estimation (% / hr)
+  if (appState.historyMoisture.length >= 5) {
+    const startM = appState.historyMoisture[0];
+    const currM = appState.moisture;
+    const hrs = Math.max(0.1, (appState.historyMoisture.length * 4) / 3600.0);
+    const calculatedRate = Math.abs((startM - currM) / hrs);
+    appState.dryingRatePerHour = calculatedRate > 0.1 && calculatedRate < 8.0 ? calculatedRate : 1.8;
+  }
+  
+  // Germination Health Index (100% down to 0% if severely overheated)
+  if (appState.temp <= (profile.maxTemp - 3.0)) {
+    appState.germinationHealth = 100;
+  } else if (appState.temp <= profile.maxTemp) {
+    const penalty = (appState.temp - (profile.maxTemp - 3.0)) * 6.0;
+    appState.germinationHealth = Math.max(80, Math.round(100 - penalty));
+  } else {
+    const excess = appState.temp - profile.maxTemp;
+    appState.germinationHealth = Math.max(10, Math.round(80 - (excess * 22.0)));
+  }
+}
+
+// ============================================================================
+// SIMULATION ENGINE TICK (When in SIMULATION mode)
+// ============================================================================
+function simulateDryingStep() {
+  if (appState.systemState !== "DRYING" && appState.systemState !== "VENTILATING") return;
+  
+  appState.elapsedSeconds += 2;
+  
+  // Solar diurnal curve oscillation
+  const timeHours = (appState.elapsedSeconds % 7200) / 7200.0;
+  appState.solarPct = Math.max(30.0, Math.min(98.0, 75.0 + Math.sin(timeHours * Math.PI * 2) * 20.0 + (Math.random() * 2 - 1)));
+  appState.pvVoltage = 14.5 + (appState.solarPct / 100.0) * 4.2;
+  appState.batVoltage = 12.4 + (appState.solarPct > 50 ? 0.3 : -0.1);
+  
+  // Temperature rises with solar radiant energy
+  const solarThermalBoost = (appState.solarPct / 100.0) * 11.0;
+  appState.temp = 28.0 + solarThermalBoost + (Math.random() * 0.4 - 0.2);
+  
+  // Humidity inversely related to heat
+  appState.humidity = Math.max(25.0, Math.min(75.0, 58.0 - (solarThermalBoost * 1.8) + (Math.random() * 0.8 - 0.4)));
+  
+  // Active drying decision logic
+  if (appState.temp >= appState.maxSafeTemp) {
+    appState.systemState = "VENTILATING";
+    appState.fanActive = true;
+    appState.ventAngle = 90; // Open flap fully to exhaust excess heat
+  } else if (appState.moisture <= appState.targetMoisture) {
+    appState.systemState = "COMPLETED";
+    appState.fanActive = false;
+    appState.ventAngle = 10;
+    addAlert("Drying Complete!", `Target moisture of ${appState.targetMoisture}% reached. Preserved 100% germination vitality.`, "info");
+  } else {
+    appState.systemState = "DRYING";
+    appState.fanActive = true;
+    appState.ventAngle = appState.moisture > 20.0 ? 75 : (appState.moisture > 16.0 ? 45 : 30);
+    
+    // Gradual moisture evaporation
+    const moistureLoss = (0.012 * (appState.temp / 35.0)) * (appState.fanActive ? 1.0 : 0.2);
+    appState.moisture = Math.max(appState.targetMoisture - 0.2, appState.moisture - moistureLoss);
+  }
+}
+
+// ============================================================================
+// MAIN SYSTEM UPDATE LOOP
+// ============================================================================
+function mainSystemTick() {
+  if (appState.isSimulating) {
+    simulateDryingStep();
+  }
+  
+  computeAiInsights();
+  updateUI();
+  
+  // Record session telemetry for export & chart history every 4s
+  if (appState.elapsedSeconds % 4 === 0) {
+    const now = new Date();
+    const timeLabel = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+    
+    appState.historyLabels.push(timeLabel);
+    appState.historyMoisture.push(parseFloat(appState.moisture.toFixed(2)));
+    appState.historyTarget.push(appState.targetMoisture);
+    appState.historyTemp.push(parseFloat(appState.temp.toFixed(1)));
+    appState.historyHum.push(parseFloat(appState.humidity.toFixed(1)));
+    
+    // Session records for CSV export
+    appState.sessionRecords.push({
+      time: timeLabel,
+      temp: appState.temp.toFixed(1),
+      humidity: appState.humidity.toFixed(1),
+      moisture: appState.moisture.toFixed(1),
+      solar: Math.round(appState.solarPct),
+      battery: appState.batVoltage.toFixed(2),
+      pv: appState.pvVoltage.toFixed(1),
+      fan: appState.fanActive ? "1" : "0",
+      vent: appState.ventAngle,
+      state: appState.systemState
+    });
+    
+    if (appState.historyLabels.length > 30) {
+      appState.historyLabels.shift();
+      appState.historyMoisture.shift();
+      appState.historyTarget.shift();
+      appState.historyTemp.shift();
+      appState.historyHum.shift();
+    }
+    
+    updateChartsUI();
+  }
+}
+
+// ============================================================================
+// UI RENDERING & SYNCHRONIZATION
+// ============================================================================
+function updateUI() {
+  if (!DOM.valMoisture) return;
+
+  // 1. Seed Moisture
+  DOM.valMoisture.textContent = appState.moisture.toFixed(1);
+  const diff = appState.moisture - appState.targetMoisture;
+  if (diff > 0) {
+    DOM.moistureDeltaBadge.textContent = `-${diff.toFixed(1)}% to target`;
+    DOM.moistureDeltaBadge.className = "badge";
+  } else {
+    DOM.moistureDeltaBadge.textContent = "Target Reached!";
+    DOM.moistureDeltaBadge.className = "badge badge-normal text-green";
+  }
+  DOM.valTargetMoistLabel.textContent = `${appState.targetMoisture.toFixed(1)}%`;
+  DOM.valEmc.textContent = `${appState.emc.toFixed(1)}%`;
+  
+  const mProgress = Math.max(0, Math.min(100, 100 - ((appState.moisture - appState.targetMoisture) / 12.0) * 100));
+  DOM.moistureProgressFill.style.width = `${mProgress}%`;
+  
+  // 2. AI Estimated Drying Time
+  const remHrs = appState.remainingMins / 60.0;
+  DOM.valRemainingHrs.textContent = remHrs >= 0.1 ? remHrs.toFixed(1) : "0.0";
+  DOM.valRemainingMins.textContent = `(~${Math.round(appState.remainingMins)} mins)`;
+  DOM.valDryingRate.textContent = `${appState.dryingRatePerHour.toFixed(1)}% / hr`;
+  
+  if (appState.remainingMins > 0) {
+    const etaDate = new Date(Date.now() + appState.remainingMins * 60000);
+    DOM.valEtaTimestamp.textContent = etaDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+  } else {
+    DOM.valEtaTimestamp.textContent = "Complete";
+  }
+  
+  // 3. Chamber Temperature
+  DOM.valTemp.textContent = appState.temp.toFixed(1);
+  DOM.valMaxTempLabel.textContent = `${appState.maxSafeTemp.toFixed(0)}°C`;
+  DOM.valGermHealth.textContent = `${appState.germinationHealth}%`;
+  
+  if (appState.temp >= appState.maxSafeTemp) {
+    DOM.tempStatusBadge.textContent = "Overheat Protection";
+    DOM.tempStatusBadge.className = "badge badge-solar";
+    DOM.valGermHealth.className = "text-orange";
+  } else {
+    DOM.tempStatusBadge.textContent = "Safe Zone";
+    DOM.tempStatusBadge.className = "badge";
+    DOM.valGermHealth.className = "text-green";
+  }
+  
+  const tempPointerPct = Math.max(0, Math.min(100, ((appState.temp - 20.0) / 30.0) * 100));
+  DOM.tempPointer.style.left = `${tempPointerPct}%`;
+  
+  // 4. Humidity
+  DOM.valHumidity.textContent = appState.humidity.toFixed(1);
+  DOM.humProgressFill.style.width = `${appState.humidity}%`;
+  
+  // 5. Solar & Battery
+  DOM.valSolarPct.textContent = Math.round(appState.solarPct);
+  DOM.valPvVolt.textContent = `PV: ${appState.pvVoltage.toFixed(1)} V`;
+  DOM.valBatVolt.textContent = appState.batVoltage.toFixed(2);
+  const soc = Math.min(100, Math.max(20, Math.round(((appState.batVoltage - 11.8) / 1.0) * 100)));
+  DOM.valBatSoc.textContent = `State of Charge: ${soc}%`;
+  
+  // 6. Actuators
+  if (appState.fanActive) {
+    DOM.valFanStatus.textContent = "ACTIVE (100%)";
+    DOM.valFanStatus.className = "a-state text-green";
+    DOM.fanBladeIcon.classList.add("spinning");
+  } else {
+    DOM.valFanStatus.textContent = "STOPPED";
+    DOM.valFanStatus.className = "a-state text-dim";
+    DOM.fanBladeIcon.classList.remove("spinning");
+  }
+  
+  DOM.valVentAngle.textContent = `${appState.ventAngle}° (Exhaust)`;
+  DOM.ventAngleVisual.style.transform = `rotate(${appState.ventAngle}deg)`;
+  
+  // 7. System State Badge
+  DOM.systemStateText.textContent = appState.systemState;
+  DOM.systemStateText.className = `state-val state-${appState.systemState.toLowerCase()}`;
+}
+
+function updateChartsUI() {
+  if (moistureChartInstance) {
+    moistureChartInstance.data.labels = [...appState.historyLabels];
+    moistureChartInstance.data.datasets[0].data = [...appState.historyMoisture];
+    moistureChartInstance.data.datasets[1].data = [...appState.historyTarget];
+    moistureChartInstance.update();
+  }
+  
+  if (tempHumChartInstance) {
+    tempHumChartInstance.data.labels = [...appState.historyLabels];
+    tempHumChartInstance.data.datasets[0].data = [...appState.historyTemp];
+    tempHumChartInstance.data.datasets[1].data = [...appState.historyHum];
+    tempHumChartInstance.update();
+  }
+}
+
+// ============================================================================
+// EVENT LISTENERS & CONTROLS
+// ============================================================================
+function bindEventListeners() {
+  // Seed Profile Switcher Buttons
+  if (DOM.seedButtonGroup) {
+    const seedBtns = DOM.seedButtonGroup.querySelectorAll(".seed-chip");
+    seedBtns.forEach(btn => {
+      btn.addEventListener("click", () => {
+        seedBtns.forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+        
+        const seedKey = btn.dataset.seed;
+        appState.activeSeed = seedKey;
+        const profile = CROP_PROFILES[seedKey];
+        
+        appState.targetMoisture = parseFloat(btn.dataset.target);
+        appState.maxSafeTemp = parseFloat(btn.dataset.maxtemp);
+        if (DOM.targetSlider) DOM.targetSlider.value = appState.targetMoisture;
+        if (DOM.sliderValDisplay) DOM.sliderValDisplay.textContent = `${appState.targetMoisture.toFixed(1)}%`;
+        
+        if (appState.isSimulating) {
+          initSimulationBaseline();
+        }
+        
+        sendSerialCommand(`SET_SEED:${seedKey}`);
+        addAlert(`Loaded ${profile.name} Profile`, `Target Moisture: ${profile.target}% • Safe Max Temp: ${profile.maxTemp}°C`, "info");
+      });
+    });
+  }
+
+  // Slider change
+  if (DOM.targetSlider) {
+    DOM.targetSlider.addEventListener("input", (e) => {
+      const val = parseFloat(e.target.value);
+      appState.targetMoisture = val;
+      if (DOM.sliderValDisplay) DOM.sliderValDisplay.textContent = `${val.toFixed(1)}%`;
+      sendSerialCommand(`SET_TARGET:${val}`);
+    });
+  }
+
+  // Action Buttons
+  if (DOM.btnStartDryer) {
+    DOM.btnStartDryer.addEventListener("click", () => {
+      appState.systemState = "DRYING";
+      appState.fanActive = true;
+      sendSerialCommand("START");
+      addAlert("Drying Cycle Resumed", "DC Blower fan and smart vent tracking activated.", "info");
+    });
+  }
+
+  if (DOM.btnStopDryer) {
+    DOM.btnStopDryer.addEventListener("click", () => {
+      appState.systemState = "IDLE";
+      appState.fanActive = false;
+      appState.ventAngle = 0;
+      sendSerialCommand("STOP");
+      addAlert("Emergency Stop", "System shut down. Blower fan stopped and vents sealed.", "warn");
+    });
+  }
+
+  if (DOM.btnVentFlush) {
+    DOM.btnVentFlush.addEventListener("click", () => {
+      appState.ventAngle = 90;
+      appState.fanActive = true;
+      sendSerialCommand("FLUSH");
+      addAlert("Manual Vent Flush", "Vent flap positioned to 90° for rapid chamber purge.", "info");
+    });
+  }
+
+  // Simulation Toggle
+  if (DOM.btnToggleSim) {
+    DOM.btnToggleSim.addEventListener("click", () => {
+      appState.isSimulating = !appState.isSimulating;
+      if (appState.isSimulating) {
+        appState.mode = "SIMULATION";
+        DOM.simToggleText.textContent = "Sim: Active";
+        DOM.connStatusText.textContent = "SIMULATION MODE";
+        DOM.connStatusPill.querySelector(".status-dot").className = "status-dot simulated";
+        addAlert("Simulation Mode Active", "Autonomous virtual drying environment running.", "info");
+      } else {
+        DOM.simToggleText.textContent = "Sim: Paused";
+        DOM.connStatusText.textContent = "STANDBY";
+        DOM.connStatusPill.querySelector(".status-dot").className = "status-dot";
+        addAlert("Simulation Paused", "Waiting for live USB / Bluetooth telemetry.", "warn");
+      }
+    });
+  }
+
+  // Telemetry Readers
+  if (DOM.btnConnectSerial) DOM.btnConnectSerial.addEventListener("click", connectUsbSerial);
+  if (DOM.btnConnectBle) DOM.btnConnectBle.addEventListener("click", connectBluetooth);
+  if (DOM.btnConnectWifi) DOM.btnConnectWifi.addEventListener("click", connectWifiTelemetry);
+  if (DOM.btnReadSdLog) DOM.btnReadSdLog.addEventListener("click", () => DOM.sdFileInput.click());
+  if (DOM.sdFileInput) DOM.sdFileInput.addEventListener("change", handleSdFileSelect);
+  if (DOM.btnReadAloud) DOM.btnReadAloud.addEventListener("click", readAloudStatus);
+  if (DOM.btnExportCsv) DOM.btnExportCsv.addEventListener("click", exportSessionCsv);
+}
+
+// ============================================================================
+// 1. WEB SERIAL API (Direct USB connection to Arduino Uno)
+// ============================================================================
+async function connectUsbSerial() {
+  if (!("serial" in navigator)) {
+    alert("Web Serial API is supported in Google Chrome, Microsoft Edge, and Chrome on Android (via OTG).\n\nIf using a standard Android WebView APK, try the 'Connect Bluetooth' option or 'Read SD Log'!");
+    return;
+  }
+
+  try {
+    appState.serialPort = await navigator.serial.requestPort();
+    await appState.serialPort.open({ baudRate: 115200 });
+    
+    appState.mode = "SERIAL";
+    appState.isSimulating = false;
+    DOM.simToggleText.textContent = "Sim: Inactive";
+    DOM.connStatusText.textContent = "ARDUINO USB CONNECTED";
+    DOM.connStatusPill.querySelector(".status-dot").className = "status-dot connected";
+    DOM.btnConnectSerial.innerHTML = `<i data-lucide="check"></i> <span>USB Active</span>`;
+    if (window.lucide) window.lucide.createIcons();
+    
+    addAlert("USB Serial Connected", "Reading high-speed telemetry from Arduino Uno (115200 baud).", "info");
+    readSerialLoop();
+  } catch (err) {
+    console.error("Serial connection failed:", err);
+    addAlert("Serial Connection Error", err.message, "danger");
+  }
+}
+
+async function readSerialLoop() {
+  const textDecoder = new TextDecoderStream();
+  appState.serialPort.readable.pipeTo(textDecoder.writable).catch(() => {});
+  const reader = textDecoder.readable.getReader();
+  appState.serialReader = reader;
+  
+  let lineBuffer = "";
+  
+  try {
+    while (true) {
+      const { value, done } = await reader.read();
+      if (done) break;
+      if (value) {
+        lineBuffer += value;
+        const lines = lineBuffer.split("\n");
+        lineBuffer = lines.pop(); // Retain incomplete chunk
+        
+        for (const line of lines) {
+          parseIncomingTelemetryLine(line.trim());
+        }
+      }
+    }
+  } catch (error) {
+    console.error("Serial read error:", error);
+    addAlert("Serial Disconnected", error.message, "warn");
+  } finally {
+    reader.releaseLock();
+  }
+}
+
+// ============================================================================
+// 2. WEB BLUETOOTH API (Wireless reading for Android & Bluetooth HC-05 / ESP32)
+// ============================================================================
+async function connectBluetooth() {
+  if (!("bluetooth" in navigator)) {
+    alert("Web Bluetooth API is supported on Android Chrome and Android WebViews with BLE enabled!\n\nPlease ensure Bluetooth is turned on and your Arduino Bluetooth module (HC-05 / ESP32 BLE) is powered.");
+    return;
+  }
+
+  try {
+    addAlert("Searching Bluetooth", "Looking for Arduino BLE UART or SPP device...", "info");
+    
+    // Standard Nordic UART Service & generic serial filters
+    const BLE_SERVICE_UUID = "6e400001-b5a3-f393-e0a9-e50e24dcca9e";
+    
+    appState.bleDevice = await navigator.bluetooth.requestDevice({
+      acceptAllDevices: true,
+      optionalServices: [BLE_SERVICE_UUID, "0000ffe0-0000-1000-8000-00805f9b34fb"]
+    });
+
+    const server = await appState.bleDevice.gatt.connect();
+    
+    // Attempt Nordic UART first, then fallback to standard CC2541 / HM-10 service
+    let service;
+    try {
+      service = await server.getPrimaryService(BLE_SERVICE_UUID);
+    } catch {
+      service = await server.getPrimaryService("0000ffe0-0000-1000-8000-00805f9b34fb");
+    }
+
+    const characteristics = await service.getCharacteristics();
+    const rxChar = characteristics.find(c => c.properties.notify || c.properties.indicate);
+
+    if (rxChar) {
+      await rxChar.startNotifications();
+      let bleBuffer = "";
+      const textDecoder = new TextDecoder();
+      
+      rxChar.addEventListener("characteristicvaluechanged", (event) => {
+        const chunk = textDecoder.decode(event.target.value);
+        bleBuffer += chunk;
+        const lines = bleBuffer.split("\n");
+        bleBuffer = lines.pop();
+        for (const line of lines) {
+          parseIncomingTelemetryLine(line.trim());
+        }
+      });
+
+      appState.mode = "BLUETOOTH";
+      appState.isSimulating = false;
+      DOM.simToggleText.textContent = "Sim: Inactive";
+      DOM.connStatusText.textContent = "BLUETOOTH WIRELESS CONNECTED";
+      DOM.connStatusPill.querySelector(".status-dot").className = "status-dot connected";
+      DOM.btnConnectBle.innerHTML = `<i data-lucide="check"></i> <span>BLE Active</span>`;
+      if (window.lucide) window.lucide.createIcons();
+      
+      addAlert("Bluetooth Connected", `Receiving live telemetry wirelessly from ${appState.bleDevice.name || 'Arduino'}.`, "info");
+    }
+  } catch (err) {
+    console.error("Bluetooth connection error:", err);
+    addAlert("Bluetooth Connection Failed", err.message, "danger");
+  }
+}
+
+// ============================================================================
+// 3. WIRELESS WI-FI NETWORK TELEMETRY (Laptop Server or ESP32 / ESP8266)
+// ============================================================================
+let wifiPollInterval = null;
+let wifiEndpointUrl = "http://192.168.0.103:8080/api/telemetry";
+
+async function connectWifiTelemetry() {
+  const currentHost = window.location.hostname || "192.168.0.103";
+  const defaultUrl = window.location.port ? `http://${currentHost}:${window.location.port}/api/telemetry` : `http://${currentHost}:8080/api/telemetry`;
+  
+  const targetUrl = prompt("Enter Prakashan AI Wi-Fi Server or ESP32 IP:", wifiEndpointUrl || defaultUrl);
+  if (!targetUrl) return;
+
+  wifiEndpointUrl = targetUrl.trim();
+  
+  try {
+    addAlert("Connecting Wi-Fi", `Attempting to reach ${wifiEndpointUrl}...`, "info");
+    const testResp = await fetch(wifiEndpointUrl);
+    if (!testResp.ok) throw new Error(`HTTP status ${testResp.status}`);
+    const data = await testResp.json();
+    handleIncomingTelemetry(data);
+
+    if (wifiPollInterval) clearInterval(wifiPollInterval);
+    wifiPollInterval = setInterval(async () => {
+      try {
+        const resp = await fetch(wifiEndpointUrl);
+        if (resp.ok) {
+          const telemetryData = await resp.json();
+          handleIncomingTelemetry(telemetryData);
+        }
+      } catch (err) {
+        console.warn("Wi-Fi telemetry poll glitch:", err);
+      }
+    }, 1000);
+
+    appState.mode = "WIFI";
+    appState.isSimulating = false;
+    DOM.simToggleText.textContent = "Sim: Inactive";
+    let hostDisplay = "192.168.0.103";
+    try { hostDisplay = new URL(wifiEndpointUrl).host; } catch(e){}
+    DOM.connStatusText.textContent = `WIFI CONNECTED: ${hostDisplay}`;
+    DOM.connStatusPill.querySelector(".status-dot").className = "status-dot connected";
+    DOM.btnConnectWifi.innerHTML = `<i data-lucide="check"></i> <span>Wi-Fi Active</span>`;
+    if (window.lucide) window.lucide.createIcons();
+
+    addAlert("Wi-Fi Connected", `Streaming real-time telemetry wirelessly from ${wifiEndpointUrl}`, "info");
+  } catch (err) {
+    console.error("Wi-Fi connection failed:", err);
+    alert(`Could not connect to Wi-Fi telemetry at ${wifiEndpointUrl}.\n\nEnsure start_wifi_server.bat is running on your laptop or your ESP32 Wi-Fi is powered on.\n\nError: ${err.message}`);
+    addAlert("Wi-Fi Connection Failed", err.message, "danger");
+  }
+}
+
+// ============================================================================
+// 4. MICROSD CARD CSV LOG READER ("Read SD Card Log")
+// ============================================================================
+function handleSdFileSelect(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+
+  const reader = new FileReader();
+  reader.onload = (e) => {
+    const content = e.target.result;
+    parseSdCardCsv(content, file.name);
+  };
+  reader.readAsText(file);
+}
+
+function parseSdCardCsv(csvText, fileName) {
+  try {
+    const rawLines = csvText.split(/\r?\n/).filter(line => line.trim().length > 0);
+    if (rawLines.length < 2) {
+      alert("Selected CSV file contains no data rows.");
+      return;
+    }
+
+    // Identify header line
+    let headerLine = rawLines[0];
+    let startIndex = 1;
+    if (!headerLine.toLowerCase().includes("temp") && !headerLine.toLowerCase().includes("time")) {
+      startIndex = 0; // Headerless CSV
+    }
+
+    const labels = [];
+    const moistures = [];
+    const targets = [];
+    const temps = [];
+    const hums = [];
+
+    let lastRow = null;
+    let rowCount = 0;
+
+    for (let i = startIndex; i < rawLines.length; i++) {
+      const parts = rawLines[i].split(",").map(p => p.trim());
+      if (parts.length >= 4) {
+        // Expected Arduino format: Timestamp_s, Temp_C, Humidity_pct, Moisture_pct, Solar_pct, Bat_V, PV_V, Fan, Vent_deg, State
+        const timeSec = parseFloat(parts[0]) || (i * 2);
+        const t = parseFloat(parts[1]);
+        const h = parseFloat(parts[2]);
+        const m = parseFloat(parts[3]);
+        
+        if (!isNaN(t) && !isNaN(h) && !isNaN(m)) {
+          rowCount++;
+          const mins = Math.floor(timeSec / 60);
+          const secs = timeSec % 60;
+          const label = `${mins}m ${secs}s`;
+          
+          labels.push(label);
+          temps.push(t);
+          hums.push(h);
+          moistures.push(m);
+          targets.push(appState.targetMoisture);
+
+          lastRow = {
+            temp: t,
+            humidity: h,
+            moisture: m,
+            solar: parts[4] ? parseFloat(parts[4]) : 80,
+            bat: parts[5] ? parseFloat(parts[5]) : 12.6,
+            pv: parts[6] ? parseFloat(parts[6]) : 18.0,
+            fan: parts[7] ? (parseInt(parts[7]) === 1) : true,
+            vent: parts[8] ? parseInt(parts[8]) : 45,
+            state: parts[9] ? parts[9].replace(/['"]+/g, '') : "COMPLETED",
+            elapsed: timeSec
+          };
+        }
+      }
+    }
+
+    if (rowCount > 0 && lastRow) {
+      appState.mode = "FILE";
+      appState.isSimulating = false;
+      DOM.simToggleText.textContent = "Sim: Inactive";
+      DOM.connStatusText.textContent = `SD LOG: ${fileName.toUpperCase()}`;
+      DOM.connStatusPill.querySelector(".status-dot").className = "status-dot connected";
+
+      // Apply last row values to gauges
+      appState.temp = lastRow.temp;
+      appState.humidity = lastRow.humidity;
+      appState.moisture = lastRow.moisture;
+      appState.solarPct = lastRow.solar;
+      appState.batVoltage = lastRow.bat;
+      appState.pvVoltage = lastRow.pv;
+      appState.fanActive = lastRow.fan;
+      appState.ventAngle = lastRow.vent;
+      appState.systemState = lastRow.state;
+      appState.elapsedSeconds = lastRow.elapsed;
+
+      // Downsample for charts if large file (>35 points)
+      const step = Math.max(1, Math.floor(labels.length / 30));
+      appState.historyLabels = labels.filter((_, idx) => idx % step === 0);
+      appState.historyMoisture = moistures.filter((_, idx) => idx % step === 0);
+      appState.historyTarget = targets.filter((_, idx) => idx % step === 0);
+      appState.historyTemp = temps.filter((_, idx) => idx % step === 0);
+      appState.historyHum = hums.filter((_, idx) => idx % step === 0);
+
+      updateChartsUI();
+      updateUI();
+      addAlert("SD Card Log Parsed", `Read ${rowCount} drying records from ${fileName}. Plotted full drying trajectory.`, "info");
+    }
+  } catch (err) {
+    console.error("Error reading SD card CSV log:", err);
+    alert("Could not parse SD Card CSV log: " + err.message);
+  }
+}
+
+// ============================================================================
+// 4. TELEMETRY LINE PARSER (JSON & CSV auto-detection)
+// ============================================================================
+function parseIncomingTelemetryLine(line) {
+  if (!line || line.length < 3) return;
+
+  // 1. JSON Format
+  if (line.startsWith("{") && line.endsWith("}")) {
+    try {
+      const data = JSON.parse(line);
+      handleIncomingTelemetry(data);
+      return;
+    } catch (e) {
+      console.warn("JSON parse error:", line);
+    }
+  }
+
+  // 2. CSV Telemetry Format: Temp,Hum,Moist,Solar,Bat,PV,Fan,Vent,State
+  if (line.includes(",")) {
+    const parts = line.split(",").map(p => p.trim());
+    if (parts.length >= 3) {
+      const t = parseFloat(parts[0]);
+      const h = parseFloat(parts[1]);
+      const m = parseFloat(parts[2]);
+      if (!isNaN(t) && !isNaN(h) && !isNaN(m)) {
+        appState.temp = t;
+        appState.humidity = h;
+        appState.moisture = m;
+        if (parts[3]) appState.solarPct = parseFloat(parts[3]);
+        if (parts[4]) appState.batVoltage = parseFloat(parts[4]);
+        if (parts[5]) appState.pvVoltage = parseFloat(parts[5]);
+        if (parts[6]) appState.fanActive = (parseInt(parts[6]) === 1);
+        if (parts[7]) appState.ventAngle = parseInt(parts[7]);
+        if (parts[8]) appState.systemState = parts[8].replace(/['"]+/g, '');
+        return;
+      }
+    }
+  }
+}
+
+function handleIncomingTelemetry(data) {
+  if (data.temp !== undefined) appState.temp = data.temp;
+  if (data.hum !== undefined) appState.humidity = data.hum;
+  if (data.moist !== undefined) appState.moisture = data.moist;
+  if (data.target_moist !== undefined) appState.targetMoisture = data.target_moist;
+  if (data.solar_pct !== undefined) appState.solarPct = data.solar_pct;
+  if (data.bat_v !== undefined) appState.batVoltage = data.bat_v;
+  if (data.pv_v !== undefined) appState.pvVoltage = data.pv_v;
+  if (data.fan !== undefined) appState.fanActive = (data.fan === 1);
+  if (data.vent !== undefined) appState.ventAngle = data.vent;
+  if (data.state !== undefined) appState.systemState = data.state;
+  if (data.elapsed_s !== undefined) appState.elapsedSeconds = data.elapsed_s;
+  
+  if (data.seed && CROP_PROFILES[data.seed]) {
+    appState.activeSeed = data.seed;
+    const btns = DOM.seedButtonGroup.querySelectorAll(".seed-chip");
+    btns.forEach(b => {
+      b.classList.toggle("active", b.dataset.seed === data.seed);
+    });
+  }
+}
+
+async function sendSerialCommand(cmd) {
+  if (appState.mode === "SERIAL" && appState.serialPort && appState.serialPort.writable) {
+    try {
+      const encoder = new TextEncoder();
+      const writer = appState.serialPort.writable.getWriter();
+      await writer.write(encoder.encode(cmd + "\n"));
+      writer.releaseLock();
+    } catch (err) {
+      console.error("Failed to send serial command:", err);
+    }
+  }
+}
+
+// ============================================================================
+// 5. VOICE READ-ALOUD (SpeechSynthesis audio for farmers in the field)
+// ============================================================================
+function readAloudStatus() {
+  if (!("speechSynthesis" in window)) {
+    alert("Speech Synthesis is not supported in this browser.");
+    return;
+  }
+
+  // Cancel any ongoing speech
+  window.speechSynthesis.cancel();
+
+  const seedName = CROP_PROFILES[appState.activeSeed] ? CROP_PROFILES[appState.activeSeed].name : appState.activeSeed;
+  const remHours = (appState.remainingMins / 60.0).toFixed(1);
+  
+  const speechText = `Prakashan AI Seed Dryer Status. Active crop is ${seedName}. ` +
+    `Current seed moisture is ${appState.moisture.toFixed(1)} percent, with target ${appState.targetMoisture.toFixed(1)} percent. ` +
+    `Chamber temperature is ${appState.temp.toFixed(1)} degrees Celsius, currently in safe zone. ` +
+    `System is ${appState.systemState.toLowerCase()}. ` +
+    (appState.remainingMins > 0 ? `Estimated drying time remaining is ${remHours} hours.` : `Drying is completed!`);
+
+  const utterance = new SpeechSynthesisUtterance(speechText);
+  utterance.rate = 0.95;
+  utterance.pitch = 1.0;
+  
+  utterance.onstart = () => {
+    DOM.btnReadAloud.classList.add("btn-warning");
+    addAlert("Voice Readout", "Speaking live status report...", "info");
+  };
+  
+  utterance.onend = () => {
+    DOM.btnReadAloud.classList.remove("btn-warning");
+  };
+
+  utterance.onerror = (e) => {
+    console.warn("Speech synthesis error:", e);
+    DOM.btnReadAloud.classList.remove("btn-warning");
+  };
+
+  window.speechSynthesis.speak(utterance);
+}
+
+// ============================================================================
+// 6. CSV DATA EXPORTER (Save drying session to file)
+// ============================================================================
+function exportSessionCsv() {
+  if (appState.sessionRecords.length === 0) {
+    alert("No session telemetry recorded yet to export.");
+    return;
+  }
+
+  let csv = "Time,Temperature_C,Humidity_pct,Moisture_pct,Solar_pct,Battery_V,PV_V,Fan,Vent_deg,State\n";
+  for (const r of appState.sessionRecords) {
+    csv += `${r.time},${r.temp},${r.humidity},${r.moisture},${r.solar},${r.battery},${r.pv},${r.fan},${r.vent},${r.state}\n`;
+  }
+
+  const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = `prakashan_drying_log_${Date.now()}.csv`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+
+  addAlert("Session Exported", `Downloaded ${appState.sessionRecords.length} records as CSV.`, "info");
+}
+
+// ============================================================================
+// 7. ALERT FEED SYSTEM
+// ============================================================================
+function addAlert(title, message, type = "info") {
+  if (!DOM.alertFeedContainer) return;
+
+  const alertEl = document.createElement("div");
+  alertEl.className = `alert-item alert-${type}`;
+  
+  let iconName = "info";
+  if (type === "warn") iconName = "alert-triangle";
+  if (type === "danger") iconName = "alert-octagon";
+  if (type === "info") iconName = "check-circle-2";
+  
+  const timeNow = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+  
+  alertEl.innerHTML = `
+    <i data-lucide="${iconName}" class="alert-icon"></i>
+    <div class="alert-text">
+      <strong>${title}</strong>
+      <p>${message}</p>
+      <span class="alert-time">${timeNow}</span>
+    </div>
+  `;
+  
+  DOM.alertFeedContainer.prepend(alertEl);
+  if (window.lucide && typeof window.lucide.createIcons === "function") {
+    window.lucide.createIcons();
+  }
+  
+  // Keep last 10 alerts
+  while (DOM.alertFeedContainer.children.length > 10) {
+    DOM.alertFeedContainer.removeChild(DOM.alertFeedContainer.lastChild);
+  }
+}
+  </script>
+</body>
+</html>
